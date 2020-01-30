@@ -1,8 +1,8 @@
 
 const { TOKEN } = require('./config.json')
-const { AkairoClient: Client } = require('discord-akairo')
+const OtakuClient = require('./app/OtakuClient')
 
-const client = new Client({
+const client = new OtakuClient({
     ownerID: ['352176756922253321','604686163554467842'],
     commandUtil: true,
     prefix: '*',
@@ -11,4 +11,4 @@ const client = new Client({
     listenerDirectory:  './src/listeners/',
 },{ disableEveryone: true })
 
-client.login( TOKEN )
+client.login( TOKEN ).catch( err => console.error(err.message) )

@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "better-sqlite-pool": "^0.2.3",
+    "discord-akairo": "^7.5.6",
     "discord.js": "^11.5.1",
-    "discord-akairo": "^7.5.6"
+    "enmap": "^5.2.4",
+    "sqlite": "^3.0.3"
   },
   "devDependencies": {},
   "scripts": {

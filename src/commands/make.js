@@ -1,49 +1,57 @@
 const { Command } = require('discord-akairo')
 const fs = require('fs').promises
+
 var template = false
-fs.readFile( './src/templates/command', { encoding: 'utf8' })
+fs.readFile( './src/templates/command.js', { encoding: 'utf8' })
     .then( file => {template = file} )
     .catch( console.error )
 
-exports = class MakeCommand extends Command {
+module.exports = class MakeCommand extends Command {
 
     constructor(){
         super( 'make', {
             aliases: [ 'make' ],
-            ownerOnly: true,
-            args: [
-                {
-                    id: 'name',
-                    type: 'string',
-                    default: 'newCommand'
-                }
-            ]
+            ownerOnly: true
         })
     }
 
-    exec( message, args ){
-
-        console.log('make command works')
+    async exec( message ){
 
         if(!template) return message.util.send('Le template de commande n\'est pas encore chargé.')
 
-        const name = args.name[0].toLowerCase() + args.name.slice(1)
-        const Name = args.name[0].toUpperCase() + args.name.slice(1)
+        const logs = []
 
-        fs.writeFile(
-            `./src/commands/${name}.js`, 
-            template
-                .replace(/{{name}}/g,name)
-                .replace(/{{Name}}/g,Name),
-            { encoding: 'utf8' }
-        )
-            .then( async () => {
-                this.client.commandHandler.reload(name)
-                message.util.send(`La commande \`${message.util.prefix + name}\` a bien été créée.`)
-            })
-            .catch( err => {
-                message.util.send(err.message)
-            })
+        const names = message.content.replace(message.util.prefix + 'make','').trim().split(/\s+/g)
+
+        for(const name of names){
+
+            const lowerName = name[0].toLowerCase() + name.slice(1)
+            const upperName = name[0].toUpperCase() + name.slice(1)
+
+            try{
+
+                await fs.writeFile(
+                    `./src/commands/${lowerName}.js`,
+                    template
+                        .replace(/{{name}}/g,lowerName)
+                        .replace(/{{Name}}/g,upperName),
+                    { encoding: 'utf8' }
+                )
+
+                logs.push(`Success: \`${message.util.prefix + lowerName}\``)
+
+            }catch(err){
+
+                logs.push(`Error: \`${message.util.prefix + lowerName}\` [${err.message}]`)
+
+            }
+
+        }
+
+        this.handler.reloadAll()
+
+        await message.util.send(logs.join('\n'))
+
     }
 
 }
