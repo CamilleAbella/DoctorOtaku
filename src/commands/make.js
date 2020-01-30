@@ -1,6 +1,5 @@
 const { Command } = require('discord-akairo')
 const fs = require('fs').promises
-const path = require('path')
 var template = false
 fs.readFile( './src/templates/command', { encoding: 'utf8' })
     .then( file => {template = file} )
@@ -15,7 +14,7 @@ exports = class MakeCommand extends Command {
             args: [
                 {
                     id: 'name',
-                    string: 'type',
+                    type: 'string',
                     default: 'newCommand'
                 }
             ]
@@ -23,6 +22,8 @@ exports = class MakeCommand extends Command {
     }
 
     exec( message, args ){
+
+        console.log('make command works')
 
         if(!template) return message.util.send('Le template de commande n\'est pas encore chargé.')
 
