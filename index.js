@@ -11,4 +11,6 @@ const client = new OtakuClient({
     listenerDirectory:  './src/listeners/',
 },{ disableEveryone: true })
 
-client.login( TOKEN ).catch( err => console.error(err.message) )
+client.login( TOKEN )
+    .then( done => console.log('Ready') )
+    .catch( err => console.error(err.message) )
