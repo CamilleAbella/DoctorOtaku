@@ -12,7 +12,6 @@ exports = class MakeCommand extends Command {
         super( 'make', {
             aliases: [ 'make' ],
             ownerOnly: true,
-            prefix: '*',
             args: [
                 {
                     id: 'name',
