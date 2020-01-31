@@ -5,7 +5,7 @@ module.exports = class ClearCommand extends Command {
 
     constructor(){
         super( 'clear', {
-            aliases: [ 'clear' ],
+            aliases: [ 'clear', 'purge', 'del', 'clean', 'delete', 'remove', 'rm' ],
             description: "Efface au maximum 100 messages à la fois.",
             userPermissions: ['MANAGE_MESSAGES'],
             cooldown: 3000,
