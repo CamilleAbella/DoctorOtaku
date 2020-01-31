@@ -7,7 +7,7 @@ module.exports = class OtakuClient extends Client {
     constructor(...options){
         
         super(...options)
-
+        
         this.db = new Enmap({ name: 'otaku' })
 
     }

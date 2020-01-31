@@ -1,11 +1,13 @@
 
 const { Command } = require('discord-akairo')
+const Embed = require('../../app/OtakuEmbed')
 
-module.exports = class {{Name}}Command extends Command {
+module.exports = class NameCommand extends Command {
 
     constructor(){
-        super( '{{name}}', {
-            aliases: [ '{{name}}' ],
+        super( 'name', {
+            aliases: [ 'name' ],
+            description: "Description de la commande Name.",
             // ownerOnly: true,
             // channelRestriction: 'guild' || 'dm',
             // clientPermissions: ['BAN_MEMBERS'],
@@ -31,7 +33,7 @@ module.exports = class {{Name}}Command extends Command {
     }
 
     exec( message, args ){
-        message.util.send('La commande `{{Name}}` fonctionne !\nTestez-la en tapant `' + message.util.prefix + '{{name}}`')
+        message.util.send('La commande `Name` fonctionne !\nTestez-la en tapant `' + message.util.prefix + 'name`')
     }
 
 }

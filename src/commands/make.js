@@ -1,4 +1,5 @@
 const { Command } = require('discord-akairo')
+const Embed = require('../../app/OtakuEmbed')
 const fs = require('fs').promises
 
 var template = false
@@ -11,6 +12,7 @@ module.exports = class MakeCommand extends Command {
     constructor(){
         super( 'make', {
             aliases: [ 'make' ],
+            description: "Crée une ou plusieur commandes à partir d'un template.",
             ownerOnly: true
         })
     }
@@ -33,8 +35,8 @@ module.exports = class MakeCommand extends Command {
                 await fs.writeFile(
                     `./src/commands/${lowerName}.js`,
                     template
-                        .replace(/{{name}}/g,lowerName)
-                        .replace(/{{Name}}/g,upperName),
+                        .replace(/name/g,lowerName)
+                        .replace(/Name/g,upperName),
                     { encoding: 'utf8' }
                 )
 
@@ -50,7 +52,8 @@ module.exports = class MakeCommand extends Command {
 
         this.handler.reloadAll()
 
-        await message.util.send(logs.join('\n'))
+        const embed = new Embed( this.client, logs.join('\n'))
+        await message.util.send(embed)
 
     }
 

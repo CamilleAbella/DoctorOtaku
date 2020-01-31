@@ -1,11 +1,13 @@
 
 const { Command } = require('discord-akairo')
+const Embed = require('../../app/OtakuEmbed')
 
 module.exports = class AutoroleCommand extends Command {
 
     constructor(){
         super( 'autorole', {
             aliases: [ 'autorole', 'ar' ],
+            description: "Gère les rôles que le bot donne automatiquement aux nouveau membres ou bots",
             channelRestriction: 'guild',
             args: [
                 {
@@ -38,13 +40,16 @@ module.exports = class AutoroleCommand extends Command {
 
         if(args.action === 'list'){
 
-            return message.util.send(`**Liste des rôles automatiques pour les ${args.type}s**\n` +
-                this.client.db.get( args.type + '_autoroles' ).map( id => {
+            const embed = new Embed( this.client, {
+                title: `**Liste des rôles automatiques pour les ${args.type}s**\n`,
+                description: this.client.db.get( args.type + '_autoroles' ).map( id => {
                     const role = message.guild.roles.get(id)
                     if(!role) this.client.db.remove( args.type + '_autoroles', id )
-                    return role ? role.name : `role deleted (${id})`
-                }
-            ).join(', '))
+                    return role ? role : `role deleted (${id})`
+                }).join(', ')
+            })
+
+            return message.util.send(embed)
 
         }
 
@@ -55,12 +60,14 @@ module.exports = class AutoroleCommand extends Command {
             if(args.action === 'add'){
 
                 this.client.db.push( args.type + '_autoroles', role.id )
-                return message.util.send(`Le rôle ${role.name} sera désormais donné aux nouveaux ${args.type}s.`)
+                const embed = new Embed( this.client, `Le rôle ${role.name} sera désormais donné aux nouveaux ${args.type}s.`)
+                return message.util.send(embed)
 
             }else{
 
                 this.client.db.remove( args.type + '_autoroles', role.id )
-                return message.util.send(`Le rôle ${role.name} ne sera désormais plus donné aux nouveaux ${args.type}s.`)
+                const embed = new Embed( this.client, `Le rôle ${role.name} ne sera désormais plus donné aux nouveaux ${args.type}s.`)
+                return message.util.send(embed)
 
             }
         }
