@@ -11,7 +11,7 @@ module.exports = class MakeCommand extends Command {
 
     constructor(){
         super( 'make', {
-            aliases: [ 'make' ],
+            aliases: [ 'make', 'mk' ],
             description: "Crée une ou plusieur commandes à partir d'un template.",
             ownerOnly: true
         })
@@ -53,7 +53,7 @@ module.exports = class MakeCommand extends Command {
         this.handler.reloadAll()
 
         const embed = new Embed( this.client, logs.join('\n'))
-        await message.util.send(embed)
+        await message.util.send(embed.shenron)
 
     }
 

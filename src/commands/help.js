@@ -25,7 +25,7 @@ module.exports = class HelpCommand extends Command {
         if(args.command){
 
             embed = new Embed( this.client, {
-                description: `Détails de la commande \`${args.command.id}\``,
+                description: `Détails de la commande \`${args.command.id}\`\n> ${args.command.description || "Pas de description."}`,
                 fields: [
                     {
                         name: 'Aliases',
@@ -34,16 +34,13 @@ module.exports = class HelpCommand extends Command {
                         }).join(', ') || "Pas d'alias."
                     },
                     {
-                        name: 'Description',
-                        value: args.command.description || "Pas de description."
-                    },
-                    {
                         name: 'Arguments',
                         value: args.command.args.map( arg => {
                             let type = 'resolvable'
                             if(typeof arg.type !== 'function') 
                             type = arg.type.toString().replace(/,/g,' \\|| ')
-                            return `**${arg.id}** : ${type} ${arg.default ? '[*optional*]' : ''}`
+                            const def = arg.default()
+                            return `**${arg.id}** : ${type} ${(def || def === null) ? '[*optional*]' : ''}`
                         }).join('\n') || "Pas d'argument définis via Akairo."
                     }
                 ]
@@ -61,7 +58,7 @@ module.exports = class HelpCommand extends Command {
     
         }
 
-        message.util.send(embed)
+        message.util.send(embed.shenron)
     }
 
 }

@@ -7,7 +7,7 @@ module.exports = class AutoroleCommand extends Command {
     constructor(){
         super( 'autorole', {
             aliases: [ 'autorole', 'ar' ],
-            description: "Gère les rôles que le bot donne automatiquement aux nouveau membres ou bots",
+            description: "Gère les rôles que je donne automatiquement aux nouveau membres ou bots",
             channelRestriction: 'guild',
             args: [
                 {
@@ -28,8 +28,7 @@ module.exports = class AutoroleCommand extends Command {
                     },
                     prompt: {
                         start: 'Veuillez donner un rôle.',
-                        retry: 'Veuillez donner un rôle existant.',
-                        retries: 3
+                        retry: 'Veuillez donner un rôle existant.'
                     }
                 }
             ]
@@ -49,7 +48,7 @@ module.exports = class AutoroleCommand extends Command {
                 }).join(', ')
             })
 
-            return message.util.send(embed)
+            return message.util.send(embed.shenron)
 
         }
 
@@ -61,13 +60,13 @@ module.exports = class AutoroleCommand extends Command {
 
                 this.client.db.push( args.type + '_autoroles', role.id )
                 const embed = new Embed( this.client, `Le rôle ${role.name} sera désormais donné aux nouveaux ${args.type}s.`)
-                return message.util.send(embed)
+                return message.util.send(embed.shenron)
 
             }else{
 
                 this.client.db.remove( args.type + '_autoroles', role.id )
                 const embed = new Embed( this.client, `Le rôle ${role.name} ne sera désormais plus donné aux nouveaux ${args.type}s.`)
-                return message.util.send(embed)
+                return message.util.send(embed.shenron)
 
             }
         }
