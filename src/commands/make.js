@@ -4,7 +4,7 @@ const fs = require('fs').promises
 
 var template = false
 fs.readFile( './src/templates/command.js', { encoding: 'utf8' })
-    .then( file => {template = file} )
+    .then( file => template = file )
     .catch( console.error )
 
 module.exports = class MakeCommand extends Command {

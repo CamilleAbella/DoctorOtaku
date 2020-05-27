@@ -6,6 +6,7 @@ module.exports = class AutoroleCommand extends Command {
 
     constructor(){
         super( 'autorole', {
+            ownerOnly: true,
             aliases: [ 'autorole', 'ar' ],
             description: "Gère les rôles que je donne automatiquement aux nouveau membres ou bots",
             channelRestriction: 'guild',
