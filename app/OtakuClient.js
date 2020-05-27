@@ -19,9 +19,12 @@ module.exports = class OtakuClient extends Client {
       .filter( message => (
         message.attachments.first() &&
         /\.png|jpe?g$/i.test( message.attachments.first().url )
-      )).map( message => axios.get( message.attachments.first().url ))
+      )).map( message => axios.get( message.attachments.first().url, {
+        transformResponse: data => data.toString("base64")
+      }))
     )
-    console.log(images)
+    const image = images[Math.floor(Math.random()*images.length)]
+    return bank.guild.setIcon(image)
   }
 
   async login( token ){
